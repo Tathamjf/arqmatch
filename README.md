@@ -42,7 +42,7 @@ O design foi construído focado em uma estética **minimalista, elegante e sofis
 - `Home`: Apresentação principal da plataforma e chamada para ação (*CTA*).
 - `Sobre`: Missão do projeto, proposta de valor e estatísticas da plataforma.
 - `Projetos`: Galeria interativa com carrossel de fotos, tags de estilo, localização e botão para detalhes/contato.
-- `Contato`: Formulário e canais para início de conversa.
+- `Login`: Permitir login do usuario na plataforma
 
 ---
 
