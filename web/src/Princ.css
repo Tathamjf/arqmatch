@@ -107,6 +107,27 @@ html, body, #root {
   color: var(--sunflower-gold);
 }
 
+.nav-user {
+  color: var(--sunflower-gold);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.nav-action {
+  padding: 0.45rem 0.8rem;
+  border: 1px solid rgba(255, 186, 73, 0.6);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--ghost-white);
+  cursor: pointer;
+  font: inherit;
+}
+
+.nav-action:hover {
+  background: var(--sunflower-gold);
+  color: var(--coffee-bean);
+}
+
 .mobile-menu-btn {
   display: none;
   background: none;

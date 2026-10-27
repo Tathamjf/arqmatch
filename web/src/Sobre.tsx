@@ -1,33 +1,12 @@
-import { Link } from 'react-router-dom';
-import React, { useState } from 'react';
+import React from 'react';
 import './Sobre.css';
 import './Princ.css';
+import Header from './Header';
 
 const Sobre: React.FC = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return (
     <>
-      <nav className="navbar">
-        <div className="logo">
-          Arq<strong>Match</strong>
-        </div>
-
-        <button
-          className="mobile-menu-btn"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Menu"
-        >
-          {menuOpen ? '✕' : '☰'}
-        </button>
-
-        <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/sobre">Sobre</Link></li>
-          <li><Link to="/projetos">Projetos</Link></li>
-          <li><Link to="/contato">Contato</Link></li>
-        </ul>
-      </nav>
+      <Header />
 
       <section id="sobre" className="sobre-container">
         <div className="sobre-content">

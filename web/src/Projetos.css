@@ -206,6 +206,23 @@
   border-color: var(--sunflower-gold);
 }
 
+.btn-carrinho {
+  margin-top: 0.6rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--sunflower-gold);
+  border-radius: 30px;
+  background: var(--sunflower-gold);
+  color: var(--coffee-bean);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.btn-carrinho:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
 /* RESPONSIVIDADE */
 @media (max-width: 900px) {
   .projetos-container {

@@ -1,9 +1,8 @@
-import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import './Princ.css';
+import Header from './Header';
 
 const Index: React.FC = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [cidade, setCidade] = useState('');
   const [estilo, setEstilo] = useState('');
 
@@ -16,26 +15,7 @@ const Index: React.FC = () => {
       <div className="bg-animated" />
 
       <div className="hero-overlay">
-        <nav className="navbar">
-          <div className="logo">
-            Arq<strong>Match</strong>
-          </div>
-
-          <button
-            className="mobile-menu-btn"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Menu"
-          >
-            {menuOpen ? '✕' : '☰'}
-          </button>
-
-          <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/sobre">Sobre</Link></li>
-            <li><Link to="/projetos">Projetos</Link></li>
-            <li><Link to="/contato">Contato</Link></li>
-          </ul>
-        </nav>
+        <Header />
 
         <div className="hero-content">
           <div className="hero-title-container">
