@@ -1,9 +1,13 @@
-import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './Projetos.css';
 import './Princ.css';
+import Header from './Header';
+import { useAuth } from './context/useAuth';
+import { useCart } from './context/useCart';
 
-interface Projeto {
+export interface Projeto {
   id: number;
   titulo: string;
   arquiteto: string;
@@ -54,6 +58,10 @@ const projetosData: Projeto[] = [
 // Componente individual para cada Card com seu próprio estado de carrossel
 const CardProjeto: React.FC<{ projeto: Projeto }> = ({ projeto }) => {
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
+  const { isAuthenticated } = useAuth();
+  const { addItem, items } = useCart();
+  const navigate = useNavigate();
+  const isInCart = items.some((item) => item.projectId === projeto.id);
 
   const prevImage = () => {
     setCurrentImgIndex((prev) =>
@@ -65,6 +73,21 @@ const CardProjeto: React.FC<{ projeto: Projeto }> = ({ projeto }) => {
     setCurrentImgIndex((prev) =>
       prev === projeto.imagens.length - 1 ? 0 : prev + 1
     );
+  };
+
+  const addToCart = () => {
+    if (!isAuthenticated) {
+      navigate('/login', {
+        state: { from: '/projetos', pendingProjectId: projeto.id },
+      });
+      return;
+    }
+
+    addItem({
+      projectId: projeto.id,
+      title: projeto.titulo,
+      image: projeto.imagens[0],
+    });
   };
 
   return (
@@ -103,37 +126,43 @@ const CardProjeto: React.FC<{ projeto: Projeto }> = ({ projeto }) => {
         <h3>{projeto.titulo}</h3>
         <span className="arquiteto-nome">{projeto.arquiteto}</span>
 
-        <button className="btn-detalhes">Ver Projeto</button>
+        <button className="btn-detalhes" type="button">Ver Projeto</button>
+        <button
+          className="btn-carrinho"
+          type="button"
+          onClick={addToCart}
+          disabled={isInCart}
+        >
+          {isInCart ? 'No carrinho' : 'Adicionar ao carrinho'}
+        </button>
       </div>
     </div>
   );
 };
 
 const Projetos: React.FC = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const { isAuthenticated } = useAuth();
+  const { addItem } = useCart();
+  const location = useLocation();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const pendingProjectId = (location.state as { pendingProjectId?: number } | null)
+      ?.pendingProjectId;
+    const pendingProject = projetosData.find((project) => project.id === pendingProjectId);
+
+    if (isAuthenticated && pendingProject) {
+      addItem({
+        projectId: pendingProject.id,
+        title: pendingProject.titulo,
+        image: pendingProject.imagens[0],
+      });
+      navigate('/projetos', { replace: true, state: null });
+    }
+  }, [addItem, isAuthenticated, location.state, navigate]);
   return (
     <>
-      <nav className="navbar navbar-projetos">
-        <div className="logo">
-          Arq<strong>Match</strong>
-        </div>
-
-        <button
-          className="mobile-menu-btn"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Menu"
-        >
-          {menuOpen ? '✕' : '☰'}
-        </button>
-
-        <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/sobre">Sobre</Link></li>
-          <li><Link to="/projetos">Projetos</Link></li>
-          <li><Link to="/contato">Contato</Link></li>
-        </ul>
-      </nav>
+      <Header className="navbar-projetos" />
 
       <section id="projetos" className="projetos-container">
         <div className="projetos-content">
